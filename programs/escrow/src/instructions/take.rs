@@ -78,7 +78,7 @@ pub struct Take<'info> {
     #[account(
         mut,
         associated_token::mint = mint_a,
-        associated_token::authority = maker,
+        associated_token::authority = escrow,
         associated_token::token_program = token_program
     )]
     pub vault: InterfaceAccount<'info, TokenAccount>,
@@ -98,7 +98,7 @@ impl<'info> Take<'info> {
         let decimals = self.mint_b.decimals;
 
         // program being invoked in CPI
-        let cpi_program = self.system_program.to_account_info();
+        let cpi_program = self.token_program.to_account_info();
 
         // create the TransferChecked struct with required accounts
         let cpi_accounts = TransferChecked {
@@ -128,7 +128,7 @@ impl<'info> Take<'info> {
         // get no. of decimals for this mint
         let decimals = self.mint_a.decimals;
 
-        let cpi_program = self.system_program.to_account_info();
+        let cpi_program = self.token_program.to_account_info();
 
         let cpi_accounts = TransferChecked {
             mint: self.mint_a.to_account_info(),

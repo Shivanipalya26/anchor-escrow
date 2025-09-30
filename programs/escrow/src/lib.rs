@@ -19,4 +19,13 @@ pub mod escrow {
         ctx.accounts.init_escrow(seed, &ctx.bumps, receive_amt)?;
         ctx.accounts.deposit(deposit_amt)      
     }
+
+    pub fn take(ctx: Context<Take>) -> Result<()> {
+        ctx.accounts.deposit()?;
+        ctx.accounts.transfer_and_close_vault()
+    }
+
+    pub fn refund(ctx: Context<Refund>) -> Result<()> {
+        ctx.accounts.refund_and_close_vault()
+    }
 }

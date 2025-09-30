@@ -63,7 +63,7 @@ impl<'info> Refund<'info> {
         let decimals = self.mint_a.decimals;
 
         // program being invoked in the CPI
-        let cpi_program = self.system_program.to_account_info();
+        let cpi_program = self.token_program.to_account_info();
 
         // create the TransferChecked struct with required accounts
         let cpi_accounts = TransferChecked {
@@ -85,7 +85,7 @@ impl<'info> Refund<'info> {
             authority: self.escrow.to_account_info(),
         };
 
-        let close_cpi_ctx = CpiContext::new_with_signer(self.system_program.to_account_info(), close_accounts, signer_seeds);
+        let close_cpi_ctx = CpiContext::new_with_signer(self.token_program.to_account_info(), close_accounts, signer_seeds);
 
         // close the vault ATA and refund rent
         close_account(close_cpi_ctx)?;
